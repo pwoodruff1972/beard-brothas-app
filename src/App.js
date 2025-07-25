@@ -18,67 +18,12 @@ const ALL_PRODUCTS = [
 ];
 
 const ARTICLES = [
-    {
-        id: 1,
-        title: "How to Use Beard Oil the Right Way",
-        content: `
-            <p class="mb-4">So you've got your bottle of Beard Brothas' Beard Oil, but are you using it to its full potential? Applying beard oil is simple, but a few key steps can make a huge difference in the health and appearance of your beard.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">1. Start with a Clean, Damp Beard</h3>
-            <p class="mb-4">The best time to apply beard oil is right after a warm shower. The steam opens up your pores and hair follicles, allowing the oil to be absorbed more effectively. Gently pat your beard dry with a towel – you want it damp, not soaking wet.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">2. Get the Amount Right</h3>
-            <p class="mb-4">This is crucial. Our app's routine generator gives you a personalized starting point based on your beard length. Dispense that amount into your palm.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">3. Warm It Up & Apply to Skin</h3>
-            <p class="mb-4">Rub your hands together to warm the oil. Then, work your fingertips into your beard, making sure to massage the oil directly onto the skin underneath. This is the most important step! Healthy skin is the foundation of a healthy beard. It prevents dryness, flaking, and itchiness.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">4. Distribute Through Your Beard</h3>
-            <p class="mb-4">Once you've massaged your skin, work the remaining oil on your hands through the length of your beard hair, from root to tip. This will help to soften the hair and give it a healthy shine.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">5. Comb or Brush It In</h3>
-            <p class="mb-4">Finally, use your Beard Brothas' Comb or Brush to evenly distribute the oil, detangle any knots, and style your beard into place. This ensures every single hair gets the nourishment it needs.</p>
-        `
-    },
-    {
-        id: 2,
-        title: "Beard Oil vs. Beard Balm: What's the Difference?",
-        content: `
-            <p class="mb-4">It's one of the most common questions we get: "Should I use beard oil or beard balm?" The simple answer is: they do different jobs, and you might need both.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">Beard Oil: The Foundation</h3>
-            <p class="mb-4"><strong>Think of beard oil as conditioner for your skin.</strong> Its primary job is to moisturize the skin underneath your beard. Why? Because your beard wicks away the natural oils from your skin, which can lead to dryness, itchiness, and flakes (beardruff). Our Beard Oil is a lightweight liquid designed to mimic those natural oils, keeping your skin healthy and creating the perfect foundation for growth.</p>
-            <p class="mb-4"><strong>Use it for:</strong> Daily skin hydration, eliminating itch, and giving your beard a healthy shine.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">Beard Balm: The Stylist</h3>
-            <p class="mb-4"><strong>Think of beard balm as a styling product for your beard hair.</strong> Our Beard Balm has a thicker consistency because it contains waxes (like beeswax) in addition to nourishing oils. This gives it a light-to-medium hold, perfect for taming flyaway hairs, shaping your beard, and giving it a fuller, more styled appearance.</p>
-            <p class="mb-4"><strong>Use it for:</strong> Taming unruly hairs, styling your beard into a specific shape, and adding a look of thickness.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">How to Use Them Together</h3>
-            <p class="mb-4">On most days, you'll want to apply beard oil first to take care of the skin. Then, scrape a small amount of beard balm, melt it in your hands, and apply it to the outside of your beard to style it for the day.</p>
-        `
-    },
-    {
-        id: 3,
-        title: "A Guide to Your Tools: Brush vs. Comb vs. Pick",
-        content: `
-            <p class="mb-4">The right tool can make all the difference. Here’s a breakdown of the Beard Brothas' arsenal to help you choose the right one for your beard length and goals.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">The Boar Bristle Brush</h3>
-            <p class="mb-4"><strong>Best for:</strong> Short beards (and all beards as a first step).</br>The natural boar bristles are excellent for a few key jobs. First, they exfoliate the skin under your beard, helping to clear away dead skin cells. Second, they are fantastic at distributing your beard oil evenly from root to tip. For shorter beards, a brush is often all you need to keep things neat.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">The Peachwood Beard Comb</h3>
-            <p class="mb-4"><strong>Best for:</strong> Medium-length beards.</br>Once your beard has some length, you'll need a comb to handle detangling. Our wood comb is anti-static, meaning it won't cause frizz like a cheap plastic comb. It's perfect for working through knots after applying oil or balm and for general styling.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">The Wood Beard Pick</h3>
-            <p class="mb-4"><strong>Best for:</strong> Long, thick, or coily beards.</br>For the brothas with truly epic manes, a standard comb just won't cut it. The Beard Pick is designed to get deep into a thick beard to lift the hair from the root. This helps to create volume and shape, preventing your beard from looking flat and giving it a fuller, more powerful profile.</p>
-        `
-    },
-    {
-        id: 4,
-        title: "The 3 Keys to Conquering Beard Itch",
-        content: `
-            <p class="mb-4">Almost every man who grows a beard experiences the dreaded itch, especially in the first few weeks. It's the number one reason men give up and shave. But you don't have to suffer. Here are the three keys to stopping the itch for good.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">1. Cleanse, Don't Strip</h3>
-            <p class="mb-4">Regular head-and-shoulders shampoo is too harsh for your face. It strips away all your natural oils, leaving the skin underneath your beard dry, tight, and incredibly itchy. You need a dedicated <strong>Beard Wash</strong>. It's formulated to be gentle enough for your face, cleansing away dirt and grime without causing irritation.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">2. Hydrate the Skin (This is the Big One)</h3>
-            <p class="mb-4">The primary cause of beard itch is dry skin. As your beard grows, it acts like a wick, pulling moisture away from your face. The solution is simple: you have to put that moisture back. Applying <strong>Beard Oil</strong> every single day, especially after washing, is non-negotiable. Massage it directly into the skin to keep it hydrated, supple, and itch-free.</p>
-            <h3 class="text-xl font-bold text-amber-500 mb-2">3. Exfoliate and Train Your Hairs</h3>
-            <p class="mb-4">Using a <strong>Boar Bristle Brush</strong> does two things. First, it gently exfoliates the skin, removing the dead skin cells that can contribute to irritation. Second, it helps to "train" your beard hairs to grow in a more uniform direction, which can reduce the prickly, itchy feeling as they grow out.</p>
-        `
-    }
+    { id: 1, title: "How to Use Beard Oil the Right Way", content: `<p class="mb-4">So you've got your bottle of Beard Brothas' Beard Oil, but are you using it to its full potential? Applying beard oil is simple, but a few key steps can make a huge difference in the health and appearance of your beard.</p><h3 class="text-xl font-bold text-amber-500 mb-2">1. Start with a Clean, Damp Beard</h3><p class="mb-4">The best time to apply beard oil is right after a warm shower. The steam opens up your pores and hair follicles, allowing the oil to be absorbed more effectively. Gently pat your beard dry with a towel – you want it damp, not soaking wet.</p><h3 class="text-xl font-bold text-amber-500 mb-2">2. Get the Amount Right</h3><p class="mb-4">This is crucial. Our app's routine generator gives you a personalized starting point based on your beard length. Dispense that amount into your palm.</p><h3 class="text-xl font-bold text-amber-500 mb-2">3. Warm It Up & Apply to Skin</h3><p class="mb-4">Rub your hands together to warm the oil. Then, work your fingertips into your beard, making sure to massage the oil directly onto the skin underneath. This is the most important step! Healthy skin is the foundation of a healthy beard. It prevents dryness, flaking, and itchiness.</p><h3 class="text-xl font-bold text-amber-500 mb-2">4. Distribute Through Your Beard</h3><p class="mb-4">Once you've massaged your skin, work the remaining oil on your hands through the length of your beard hair, from root to tip. This will help to soften the hair and give it a healthy shine.</p><h3 class="text-xl font-bold text-amber-500 mb-2">5. Comb or Brush It In</h3><p class="mb-4">Finally, use your Beard Brothas' Comb or Brush to evenly distribute the oil, detangle any knots, and style your beard into place. This ensures every single hair gets the nourishment it needs.</p>` },
+    { id: 2, title: "Beard Oil vs. Beard Balm: What's the Difference?", content: `<p class="mb-4">It's one of the most common questions we get: "Should I use beard oil or beard balm?" The simple answer is: they do different jobs, and you might need both.</p><h3 class="text-xl font-bold text-amber-500 mb-2">Beard Oil: The Foundation</h3><p class="mb-4"><strong>Think of beard oil as conditioner for your skin.</strong> Its primary job is to moisturize the skin underneath your beard. Why? Because your beard wicks away the natural oils from your skin, which can lead to dryness, itchiness, and flakes (beardruff). Our Beard Oil is a lightweight liquid designed to mimic those natural oils, keeping your skin healthy and creating the perfect foundation for growth.</p><p class="mb-4"><strong>Use it for:</strong> Daily skin hydration, eliminating itch, and giving your beard a healthy shine.</p><h3 class="text-xl font-bold text-amber-500 mb-2">Beard Balm: The Stylist</h3><p class="mb-4"><strong>Think of beard balm as a styling product for your beard hair.</strong> Our Beard Balm has a thicker consistency because it contains waxes (like beeswax) in addition to nourishing oils. This gives it a light-to-medium hold, perfect for taming flyaway hairs, shaping your beard, and giving it a fuller, more styled appearance.</p><p class="mb-4"><strong>Use it for:</strong> Taming unruly hairs, styling your beard into a specific shape, and adding a look of thickness.</p><h3 class="text-xl font-bold text-amber-500 mb-2">How to Use Them Together</h3><p class="mb-4">On most days, you'll want to apply beard oil first to take care of the skin. Then, scrape a small amount of beard balm, melt it in your hands, and apply it to the outside of your beard to style it for the day.</p>` },
+    { id: 3, title: "A Guide to Your Tools: Brush vs. Comb vs. Pick", content: `<p class="mb-4">The right tool can make all the difference. Here’s a breakdown of the Beard Brothas' arsenal to help you choose the right one for your beard length and goals.</p><h3 class="text-xl font-bold text-amber-500 mb-2">The Boar Bristle Brush</h3><p class="mb-4"><strong>Best for:</strong> Short beards (and all beards as a first step).</br>The natural boar bristles are excellent for a few key jobs. First, they exfoliate the skin under your beard, helping to clear away dead skin cells. Second, they are fantastic at distributing your beard oil evenly from root to tip. For shorter beards, a brush is often all you need to keep things neat.</p><h3 class="text-xl font-bold text-amber-500 mb-2">The Peachwood Beard Comb</h3><p class="mb-4"><strong>Best for:</strong> Medium-length beards.</br>Once your beard has some length, you'll need a comb to handle detangling. Our wood comb is anti-static, meaning it won't cause frizz like a cheap plastic comb. It's perfect for working through knots after applying oil or balm and for general styling.</p><h3 class="text-xl font-bold text-amber-500 mb-2">The Wood Beard Pick</h3><p class="mb-4"><strong>Best for:</strong> Long, thick, or coily beards.</br>For the brothas with truly epic manes, a standard comb just won't cut it. The Beard Pick is designed to get deep into a thick beard to lift the hair from the root. This helps to create volume and shape, preventing your beard from looking flat and giving it a fuller, more powerful profile.</p>` },
+    { id: 4, title: "The 3 Keys to Conquering Beard Itch", content: `<p class="mb-4">Almost every man who grows a beard experiences the dreaded itch, especially in the first few weeks. It's the number one reason men give up and shave. But you don't have to suffer. Here are the three keys to stopping the itch for good.</p><h3 class="text-xl font-bold text-amber-500 mb-2">1. Cleanse, Don't Strip</h3><p class="mb-4">Regular head-and-shoulders shampoo is too harsh for your face. It strips away all your natural oils, leaving the skin underneath your beard dry, tight, and incredibly itchy. You need a dedicated <strong>Beard Wash</strong>. It's formulated to be gentle enough for your face, cleansing away dirt and grime without causing irritation.</p><h3 class="text-xl font-bold text-amber-500 mb-2">2. Hydrate the Skin (This is the Big One)</h3><p class="mb-4">The primary cause of beard itch is dry skin. As your beard grows, it acts like a wick, pulling moisture away from your face. The solution is simple: you have to put that moisture back. Applying <strong>Beard Oil</strong> every single day, especially after washing, is non-negotiable. Massage it directly into the skin to keep it hydrated, supple, and itch-free.</p><h3 class="text-xl font-bold text-amber-500 mb-2">3. Exfoliate and Train Your Hairs</h3><p class="mb-4">Using a <strong>Boar Bristle Brush</strong> does two things. First, it gently exfoliates the skin, removing the dead skin cells that can contribute to irritation. Second, it helps to "train" your beard hairs to grow in a more uniform direction, which can reduce the prickly, itchy feeling as they grow out.</p>` }
 ];
 
-// --- NEW: Rotating Weekly Tips ---
 const WEEKLY_TIPS = [
     { name: "Rest & Review", instruction: "No special product tasks this week. A great day to trim your neckline and check for stray hairs!" },
     { name: "Tool Cleaning Day", instruction: "Take a few minutes to clean your beard brush, comb, and pick to remove built-up oils and skin cells." },
@@ -88,16 +33,14 @@ const WEEKLY_TIPS = [
 
 const getProduct = (id) => ALL_PRODUCTS.find(p => p.id === id);
 
-// --- Quiz Structure ---
 const QUIZ_STEPS = [
-  { id: 'length', question: "What's your beard length?", options: [ { value: 'stubble', label: 'Stubble', icon: '🧔🏻' }, { value: 'short', label: 'Short', icon: '🧔🏼' }, { value: 'medium', label: 'Medium', icon: '🧔🏽' }, { value: 'long', label: 'Long', icon: '🧔🏾' } ] },
+  { id: 'length', question: "What's your beard length?", options: [ { value: 'stubble', label: 'Stubble', icon: '🧔🏻' }, { value: 'short', label: 'Short', icon: '🧔🏼' }, { value: 'medium', label: 'Medium', icon: '🧔🏽' }, { value: 'long', label: 'Long', icon: '�🏾' } ] },
   { id: 'type', question: "What's your hair type?", options: [ { value: 'straight', label: 'Straight', icon: '📏' }, { value: 'wavy', label: 'Wavy', icon: '🌊' }, { value: 'curly', label: 'Curly', icon: '➰' }, { value: 'coily', label: 'Coily', icon: '➿' } ] },
   { id: 'skin', question: "How's your skin underneath?", options: [ { value: 'normal', label: 'Normal', icon: '🙂' }, { value: 'dry', label: 'Dry / Itchy', icon: '🌵' }, { value: 'oily', label: 'Oily', icon: '💧' } ] },
   { id: 'hairstyle', question: "What's your style up top?", options: [ { value: 'hair', label: 'Got a full mane', icon: '💇‍♂️' }, { value: 'bald', label: 'Rockin\' the bald look', icon: '🧑‍🦲' }, { value: 'buzzed', label: 'Keeping it buzzed', icon: '🪒' } ] },
   { id: 'goal', question: "What's your main goal?", options: [ { value: 'softness', label: 'Softer Beard', icon: '☁️' }, { value: 'growth', label: 'Fuller Growth', icon: '📈' }, { value: 'taming', label: 'Tame Frizz', icon: '🦁' }, { value: 'health', label: 'Overall Health', icon: '💪' } ] },
 ];
 
-// --- V16 Routine Generation Logic ---
 const generateRoutine = (answers, ownedProducts) => {
   const { length, type, skin, goal, hairstyle } = answers;
   let routine = { morning: [], evening: [], weekly: [], recommendations: [] };
@@ -107,37 +50,31 @@ const generateRoutine = (answers, ownedProducts) => {
     if (ownedProducts.includes(productId)) return { type: 'task', product: product, instruction };
     else return { type: 'recommendation', product: product, instruction: `Consider adding this to your shelf to ${instruction}` };
   };
-  
   const washInstruction = "Use a quarter-sized amount and lather well. For a richer lather (especially with sulfate-free washes), rinse lightly and repeat a second time.";
   const washTask = addOrRecommend('wash', washInstruction);
   if (washTask) { if (washTask.type === 'task') routine.morning.push(washTask); else routine.recommendations.push(washTask); }
-
   let oilAmount = "3-5 drops";
   if (length === 'medium') oilAmount = "5-8 drops";
   if (length === 'long') oilAmount = "8-12+ drops";
   const oilInstruction = `Apply ${oilAmount}. Warm in hands and massage into the skin and beard.`;
   const oilTask = addOrRecommend('oil', oilInstruction);
   if (oilTask) { if (oilTask.type === 'task') routine.morning.push(oilTask); else routine.recommendations.push(oilTask); }
-  
   if (skin === 'dry') {
     const eveningOilInstruction = `Apply another 2-3 drops before bed to keep skin hydrated overnight.`;
     const eveningOilTask = addOrRecommend('oil', eveningOilInstruction);
     if (eveningOilTask) { if (eveningOilTask.type === 'task') routine.evening.push(eveningOilTask); else routine.recommendations.push(eveningOilTask); }
   }
-  
   const balmInstruction = 'Scrape a pea-sized amount, melt between your palms, and apply to your beard to shape and tame flyaways.';
   if (goal === 'taming' || length === 'medium' || length === 'long') {
     const balmTask = addOrRecommend('balm', balmInstruction);
     if (balmTask) { if (balmTask.type === 'task') routine.morning.push(balmTask); else routine.recommendations.push(balmTask); }
   }
-  
   let idealToolId;
   if (length === 'long') idealToolId = 'pick';
   else if (length === 'medium' || type === 'curly' || type === 'coily') idealToolId = 'comb';
   else idealToolId = 'brush';
   const toolTask = addOrRecommend(idealToolId, `use the ${getProduct(idealToolId).name.toLowerCase()} to style, detangle, and distribute products evenly.`);
   if(toolTask) { if(toolTask.type === 'task') routine.morning.push(toolTask); else routine.recommendations.push(toolTask); }
-
   if (hairstyle === 'bald' || hairstyle === 'buzzed') {
     const headBalmInstruction = "After your shower, apply a small, dime-sized amount to your scalp for a smooth, moisturized finish.";
     const headBalmTask = addOrRecommend('head_balm', headBalmInstruction);
@@ -146,8 +83,6 @@ const generateRoutine = (answers, ownedProducts) => {
         else { routine.recommendations.push(headBalmTask); }
     }
   }
-  
-  // --- UPDATED: Weekly Tip Logic ---
   if (routine.weekly.length === 0) {
     const randomTip = WEEKLY_TIPS[Math.floor(Math.random() * WEEKLY_TIPS.length)];
     routine.weekly.push({ type: 'task', product: {name: randomTip.name, description: ""}, instruction: randomTip.instruction });
@@ -177,10 +112,63 @@ const RoutineBuilderPage = ({ setActiveTab }) => {
   const ProgressBar = ({ current, total }) => <div className="w-full bg-gray-700 rounded-full h-2.5 mb-8"><div className="bg-amber-500 h-2.5 rounded-full transition-all" style={{ width: `${(current / total) * 100}%` }}></div></div>;
   const QuizOption = ({ option, onSelect, isSelected }) => <button onClick={() => onSelect(option.value)} className={`w-full text-left p-4 md:p-6 rounded-lg border-2 transition-all transform hover:scale-105 ${isSelected ? 'bg-amber-500 border-amber-400 shadow-lg' : 'bg-gray-800 border-gray-700 hover:border-amber-500'}`}><div className="flex items-center"><span className="text-3xl mr-4">{option.icon}</span><span className="text-lg font-semibold text-white">{option.label}</span></div></button>;
   const QuizStep = ({ step, onSelect, selectedValue }) => <div className="w-full animate-fade-in"><h2 className="text-2xl md:text-3xl font-bold text-white mb-6 text-center">{step.question}</h2><div className="grid grid-cols-1 md:grid-cols-2 gap-4">{step.options.map((option) => <QuizOption key={option.value} option={option} onSelect={onSelect} isSelected={selectedValue === option.value} />)}</div></div>;
-  const MyShelfStep = ({ onToggleProduct, ownedProducts, onContinue }) => {
+  
+  // --- UPDATED: MyShelfStep Component ---
+  const MyShelfStep = ({ ownedProducts, setOwnedProducts, onContinue }) => {
     const shelfProducts = ALL_PRODUCTS.filter(p => p.type !== 'tool');
-    return <div className="w-full animate-fade-in"><h2 className="text-2xl md:text-3xl font-bold text-white mb-2 text-center">My Shelf</h2><p className="text-gray-400 mb-6 text-center">Which Beard Brothas products do you already own?</p><div className="grid grid-cols-1 md:grid-cols-2 gap-3">{shelfProducts.map(product => <button key={product.id} onClick={() => onToggleProduct(product.id)} className={`p-4 rounded-lg border-2 text-left transition-colors ${ownedProducts.includes(product.id) ? 'bg-amber-500 border-amber-400' : 'bg-gray-800 border-gray-700 hover:border-amber-500'}`}><p className="font-semibold text-white">{product.name}</p></button>)}</div><div className="mt-8 text-center"><button onClick={onContinue} className="bg-green-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-700 transition-all shadow-lg">Generate My Routine</button></div></div>;
+    const isNoneOwned = ownedProducts.length === 0;
+
+    const handleToggleProduct = (productId) => {
+        setOwnedProducts(prev => 
+            prev.includes(productId) 
+            ? prev.filter(id => id !== productId) 
+            : [...prev, productId]
+        );
+    };
+
+    const handleSelectNone = () => {
+        setOwnedProducts([]);
+    };
+
+    return (
+        <div className="w-full animate-fade-in">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 text-center">My Shelf</h2>
+            <p className="text-gray-400 mb-6 text-center">Which Beard Brothas products do you already own?</p>
+            
+            <button
+                onClick={handleSelectNone}
+                className={`w-full p-4 mb-4 rounded-lg border-2 text-center transition-colors ${
+                    isNoneOwned ? 'bg-amber-500 border-amber-400' : 'bg-gray-800 border-gray-700 hover:border-amber-500'
+                }`}
+            >
+                <p className="font-semibold text-white">I don't own any... yet!</p>
+            </button>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {shelfProducts.map(product => (
+                    <button
+                        key={product.id}
+                        onClick={() => handleToggleProduct(product.id)}
+                        className={`p-4 rounded-lg border-2 text-left transition-colors ${
+                            ownedProducts.includes(product.id) ? 'bg-amber-500 border-amber-400' : 'bg-gray-800 border-gray-700 hover:border-amber-500'
+                        }`}
+                    >
+                        <p className="font-semibold text-white">{product.name}</p>
+                    </button>
+                ))}
+            </div>
+            <div className="mt-8 text-center">
+                <button
+                    onClick={onContinue}
+                    className="bg-green-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-700 transition-all duration-200 shadow-lg"
+                >
+                    Generate My Routine
+                </button>
+            </div>
+        </div>
+    );
   };
+
   const RoutineDisplay = ({ routine, onRestart }) => {
     const RoutineSection = ({ title, tasks, icon }) => {
       if (!tasks || tasks.length === 0) return null;
@@ -200,7 +188,7 @@ const RoutineBuilderPage = ({ setActiveTab }) => {
   const renderContent = () => {
     switch(appState) {
       case 'quiz': return <><ProgressBar current={quizStep + 1} total={QUIZ_STEPS.length} /><QuizStep step={currentStepData} onSelect={handleSelectAnswer} selectedValue={answers[currentStepData.id]} /></>;
-      case 'shelf': return <MyShelfStep ownedProducts={ownedProducts} onToggleProduct={handleToggleProduct} onContinue={() => setAppState('routine')} />;
+      case 'shelf': return <MyShelfStep ownedProducts={ownedProducts} setOwnedProducts={setOwnedProducts} onContinue={() => setAppState('routine')} />;
       case 'routine': return <RoutineDisplay routine={generatedRoutine} onRestart={handleRestart} />;
       default: return null;
     }
@@ -325,3 +313,4 @@ export default function App() {
     </div>
   );
 }
+�
