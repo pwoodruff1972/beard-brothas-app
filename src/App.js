@@ -1,10 +1,16 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 
 // --- ICONS ---
 const CalendarIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>;
 const ShoppingBagIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>;
 const BookOpenIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>;
 const ChevronLeftIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>;
+const CameraIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>;
+const TrashIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>;
+const FilmIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" /></svg>;
+const XIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>;
+const MailIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>;
+
 
 // --- Data ---
 const ALL_PRODUCTS = [
@@ -252,14 +258,184 @@ const LearnPage = () => {
                     </button>
                 ))}
             </div>
+            <a 
+                href="mailto:customerservice@beardbrothas.com?subject=Feedback%20on%20the%20Beard%20Routine%20App"
+                className="mt-8 inline-flex items-center justify-center bg-gray-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-600 transition-all duration-200 shadow-lg"
+            >
+                <MailIcon />
+                <span className="ml-3">Send Feedback</span>
+            </a>
         </div>
     );
 };
+
+const GrowthTrackerPage = () => {
+    const [photos, setPhotos] = useState([]);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [isPlayingTimelapse, setIsPlayingTimelapse] = useState(false);
+    const fileInputRef = useRef(null);
+
+    useEffect(() => {
+        try {
+            const savedPhotos = localStorage.getItem('beardBrothasPhotos');
+            if (savedPhotos) {
+                setPhotos(JSON.parse(savedPhotos));
+            }
+        } catch (error) {
+            console.error("Could not load photos from localStorage", error);
+        }
+    }, []);
+
+    const savePhotos = (newPhotos) => {
+        try {
+            setPhotos(newPhotos);
+            localStorage.setItem('beardBrothasPhotos', JSON.stringify(newPhotos));
+        } catch (error) {
+            console.error("Could not save photos to localStorage", error);
+            alert("Could not save photo. Your browser's storage might be full.");
+        }
+    };
+
+    const handleAddPhotoClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const newPhoto = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString(),
+                imageData: e.target.result,
+            };
+            savePhotos([newPhoto, ...photos]);
+            setShowConfirmation(true);
+            setTimeout(() => setShowConfirmation(false), 4000);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleDeletePhoto = (id) => {
+        const updatedPhotos = photos.filter(photo => photo.id !== id);
+        savePhotos(updatedPhotos);
+    };
+
+    const TimelapsePlayer = ({ photos, onClose }) => {
+        const [currentIndex, setCurrentIndex] = useState(0);
+
+        useEffect(() => {
+            const interval = setInterval(() => {
+                setCurrentIndex(prevIndex => (prevIndex + 1) % photos.length);
+            }, 500); // Change image every 0.5 seconds
+
+            return () => clearInterval(interval);
+        }, [photos.length]);
+
+        // Reverse the photos so it plays from oldest to newest
+        const orderedPhotos = [...photos].reverse();
+
+        return (
+            <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center justify-center z-50 animate-fade-in">
+                <button onClick={onClose} className="absolute top-4 right-4 text-white hover:text-amber-500">
+                    <XIcon />
+                </button>
+                <div className="relative w-full max-w-lg aspect-square p-4">
+                    <img src={orderedPhotos[currentIndex].imageData} alt="Timelapse" className="w-full h-full object-contain rounded-lg" />
+                    <p className="text-center text-white text-lg font-semibold mt-2">{orderedPhotos[currentIndex].date}</p>
+                </div>
+                 <div className="w-full max-w-lg p-4">
+                    <div className="w-full bg-gray-700 rounded-full h-2.5">
+                        <div className="bg-amber-500 h-2.5 rounded-full" style={{ width: `${((currentIndex + 1) / photos.length) * 100}%` }}></div>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
+    return (
+        <div className="w-full max-w-2xl mx-auto animate-fade-in">
+            {isPlayingTimelapse && <TimelapsePlayer photos={photos} onClose={() => setIsPlayingTimelapse(false)} />}
+            
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 text-center">Growth Tracker</h1>
+            <p className="text-gray-400 text-center mb-6">Track your beard's progress. Add a photo once a week to see how far you've come!</p>
+            
+            {showConfirmation && (
+                <div className="bg-green-500 text-white text-center p-3 rounded-lg mb-4 animate-fade-in-out font-semibold">
+                    Photo added! Come back next week to track your progress.
+                </div>
+            )}
+
+            <input
+                type="file"
+                accept="image/*"
+                capture="user"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className="hidden"
+            />
+
+            <div className="flex space-x-4">
+                <button
+                    onClick={handleAddPhotoClick}
+                    className="flex-1 bg-green-600 text-white font-bold py-4 px-6 rounded-lg hover:bg-green-700 transition-all duration-200 shadow-lg flex items-center justify-center text-lg"
+                >
+                    <CameraIcon />
+                    <span className="ml-3">+ Add Photo</span>
+                </button>
+
+                {photos.length >= 3 && (
+                     <button
+                        onClick={() => setIsPlayingTimelapse(true)}
+                        className="flex-1 bg-amber-600 text-white font-bold py-4 px-6 rounded-lg hover:bg-amber-700 transition-all duration-200 shadow-lg flex items-center justify-center text-lg"
+                    >
+                        <FilmIcon />
+                        <span className="ml-3">Create Time-Lapse</span>
+                    </button>
+                )}
+            </div>
+            
+            {photos.length < 3 && (
+                <p className="text-center text-amber-500 text-sm mt-4 animate-fade-in">
+                    Save {3 - photos.length} more photo{3 - photos.length > 1 ? 's' : ''} to unlock the time-lapse feature!
+                </p>
+            )}
+
+            <div className="mt-8">
+                {photos.length === 0 ? (
+                    <div className="text-center text-gray-500 py-10">
+                        <p>No photos yet.</p>
+                        <p>Add your first photo to start your journey!</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {photos.map(photo => (
+                            <div key={photo.id} className="relative group">
+                                <img src={photo.imageData} alt={`Beard progress on ${photo.date}`} className="w-full h-auto aspect-square object-cover rounded-lg" />
+                                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs text-center py-1 rounded-b-lg">{photo.date}</div>
+                                <button
+                                    onClick={() => handleDeletePhoto(photo.id)}
+                                    className="absolute top-1 right-1 bg-red-600/80 hover:bg-red-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                    <TrashIcon />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
 
 const TabBar = ({ activeTab, setActiveTab }) => {
     const tabs = [
         { id: 'routine', label: 'Routine', icon: <CalendarIcon /> },
         { id: 'shop', label: 'Shop', icon: <ShoppingBagIcon /> },
+        { id: 'tracker', label: 'Tracker', icon: <CameraIcon /> },
         { id: 'learn', label: 'Learn', icon: <BookOpenIcon /> },
     ];
     return (
@@ -290,6 +466,7 @@ export default function App() {
       case 'routine': return <RoutineBuilderPage setActiveTab={setActiveTab} />;
       case 'shop': return <ShopPage />;
       case 'learn': return <LearnPage />;
+      case 'tracker': return <GrowthTrackerPage />;
       default: return <RoutineBuilderPage setActiveTab={setActiveTab} />;
     }
   };
@@ -301,6 +478,13 @@ export default function App() {
         .font-sans { font-family: 'Inter', sans-serif; }
         @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
+        @keyframes fade-in-out {
+          0% { opacity: 0; transform: translateY(-10px); }
+          15% { opacity: 1; transform: translateY(0); }
+          85% { opacity: 1; transform: translateY(0); }
+          100% { opacity: 0; transform: translateY(-10px); }
+        }
+        .animate-fade-in-out { animation: fade-in-out 4s ease-in-out forwards; }
       `}</style>
       
       <div className="w-full flex-grow">
