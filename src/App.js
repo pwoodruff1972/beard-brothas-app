@@ -79,7 +79,7 @@ const ARTICLES = [
 ];
 
 const getProduct = (id) => ALL_PRODUCTS.find(p => p.id === id);
-const getArticle = (id) => ARTICLES.find(a => a.id === id);
+
 
 // --- Quiz Structure ---
 const QUIZ_STEPS = [
