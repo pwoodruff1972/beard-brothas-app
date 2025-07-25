@@ -78,6 +78,14 @@ const ARTICLES = [
     }
 ];
 
+// --- NEW: Rotating Weekly Tips ---
+const WEEKLY_TIPS = [
+    { name: "Rest & Review", instruction: "No special product tasks this week. A great day to trim your neckline and check for stray hairs!" },
+    { name: "Tool Cleaning Day", instruction: "Take a few minutes to clean your beard brush, comb, and pick to remove built-up oils and skin cells." },
+    { name: "Hydration Check", instruction: "Healthy beards start from within. Are you drinking enough water? Make it a goal this week to stay well-hydrated." },
+    { name: "Pillowcase Swap", instruction: "Swap out your pillowcase for a clean one. This helps prevent oils from your hair and face from building up and affecting your beard." }
+];
+
 const getProduct = (id) => ALL_PRODUCTS.find(p => p.id === id);
 
 // --- Quiz Structure ---
@@ -89,7 +97,7 @@ const QUIZ_STEPS = [
   { id: 'goal', question: "What's your main goal?", options: [ { value: 'softness', label: 'Softer Beard', icon: '☁️' }, { value: 'growth', label: 'Fuller Growth', icon: '📈' }, { value: 'taming', label: 'Tame Frizz', icon: '🦁' }, { value: 'health', label: 'Overall Health', icon: '💪' } ] },
 ];
 
-// --- V15.1 Routine Generation Logic ---
+// --- V16 Routine Generation Logic ---
 const generateRoutine = (answers, ownedProducts) => {
   const { length, type, skin, goal, hairstyle } = answers;
   let routine = { morning: [], evening: [], weekly: [], recommendations: [] };
@@ -139,7 +147,11 @@ const generateRoutine = (answers, ownedProducts) => {
     }
   }
   
-  if (routine.weekly.length === 0) { routine.weekly.push({ type: 'task', product: {name: "Rest & Review", description: "Check your beard's progress."}, instruction: "No special product tasks this week. A great day to trim your neckline and check for stray hairs!" }); }
+  // --- UPDATED: Weekly Tip Logic ---
+  if (routine.weekly.length === 0) {
+    const randomTip = WEEKLY_TIPS[Math.floor(Math.random() * WEEKLY_TIPS.length)];
+    routine.weekly.push({ type: 'task', product: {name: randomTip.name, description: ""}, instruction: randomTip.instruction });
+  }
   return routine;
 };
 
