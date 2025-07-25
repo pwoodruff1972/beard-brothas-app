@@ -79,7 +79,6 @@ const ARTICLES = [
 ];
 
 const getProduct = (id) => ALL_PRODUCTS.find(p => p.id === id);
-const getArticle = (id) => ARTICLES.find(a => a.id === id);
 
 // --- Quiz Structure ---
 const QUIZ_STEPS = [
@@ -90,7 +89,7 @@ const QUIZ_STEPS = [
   { id: 'goal', question: "What's your main goal?", options: [ { value: 'softness', label: 'Softer Beard', icon: '☁️' }, { value: 'growth', label: 'Fuller Growth', icon: '📈' }, { value: 'taming', label: 'Tame Frizz', icon: '🦁' }, { value: 'health', label: 'Overall Health', icon: '💪' } ] },
 ];
 
-// --- V15 Routine Generation Logic ---
+// --- V15.1 Routine Generation Logic ---
 const generateRoutine = (answers, ownedProducts) => {
   const { length, type, skin, goal, hairstyle } = answers;
   let routine = { morning: [], evening: [], weekly: [], recommendations: [] };
@@ -101,7 +100,6 @@ const generateRoutine = (answers, ownedProducts) => {
     else return { type: 'recommendation', product: product, instruction: `Consider adding this to your shelf to ${instruction}` };
   };
   
-  // --- UPDATED: Beard Wash Instruction ---
   const washInstruction = "Use a quarter-sized amount and lather well. For a richer lather (especially with sulfate-free washes), rinse lightly and repeat a second time.";
   const washTask = addOrRecommend('wash', washInstruction);
   if (washTask) { if (washTask.type === 'task') routine.morning.push(washTask); else routine.recommendations.push(washTask); }
@@ -132,7 +130,6 @@ const generateRoutine = (answers, ownedProducts) => {
   const toolTask = addOrRecommend(idealToolId, `use the ${getProduct(idealToolId).name.toLowerCase()} to style, detangle, and distribute products evenly.`);
   if(toolTask) { if(toolTask.type === 'task') routine.morning.push(toolTask); else routine.recommendations.push(toolTask); }
 
-  // --- UPDATED: Bald Head Balm Instruction ---
   if (hairstyle === 'bald' || hairstyle === 'buzzed') {
     const headBalmInstruction = "After your shower, apply a small, dime-sized amount to your scalp for a smooth, moisturized finish.";
     const headBalmTask = addOrRecommend('head_balm', headBalmInstruction);
