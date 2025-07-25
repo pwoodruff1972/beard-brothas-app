@@ -79,7 +79,7 @@ const ARTICLES = [
 ];
 
 const getProduct = (id) => ALL_PRODUCTS.find(p => p.id === id);
-
+const getArticle = (id) => ARTICLES.find(a => a.id === id);
 
 // --- Quiz Structure ---
 const QUIZ_STEPS = [
@@ -90,7 +90,7 @@ const QUIZ_STEPS = [
   { id: 'goal', question: "What's your main goal?", options: [ { value: 'softness', label: 'Softer Beard', icon: '☁️' }, { value: 'growth', label: 'Fuller Growth', icon: '📈' }, { value: 'taming', label: 'Tame Frizz', icon: '🦁' }, { value: 'health', label: 'Overall Health', icon: '💪' } ] },
 ];
 
-// --- Routine Generation Logic ---
+// --- V15 Routine Generation Logic ---
 const generateRoutine = (answers, ownedProducts) => {
   const { length, type, skin, goal, hairstyle } = answers;
   let routine = { morning: [], evening: [], weekly: [], recommendations: [] };
@@ -100,36 +100,48 @@ const generateRoutine = (answers, ownedProducts) => {
     if (ownedProducts.includes(productId)) return { type: 'task', product: product, instruction };
     else return { type: 'recommendation', product: product, instruction: `Consider adding this to your shelf to ${instruction}` };
   };
-  const washTask = addOrRecommend('wash', 'properly cleanse your beard without stripping natural oils.');
+  
+  // --- UPDATED: Beard Wash Instruction ---
+  const washInstruction = "Use a quarter-sized amount and lather well. For a richer lather (especially with sulfate-free washes), rinse lightly and repeat a second time.";
+  const washTask = addOrRecommend('wash', washInstruction);
   if (washTask) { if (washTask.type === 'task') routine.morning.push(washTask); else routine.recommendations.push(washTask); }
+
   let oilAmount = "3-5 drops";
   if (length === 'medium') oilAmount = "5-8 drops";
   if (length === 'long') oilAmount = "8-12+ drops";
   const oilInstruction = `Apply ${oilAmount}. Warm in hands and massage into the skin and beard.`;
   const oilTask = addOrRecommend('oil', oilInstruction);
   if (oilTask) { if (oilTask.type === 'task') routine.morning.push(oilTask); else routine.recommendations.push(oilTask); }
+  
   if (skin === 'dry') {
     const eveningOilInstruction = `Apply another 2-3 drops before bed to keep skin hydrated overnight.`;
     const eveningOilTask = addOrRecommend('oil', eveningOilInstruction);
     if (eveningOilTask) { if (eveningOilTask.type === 'task') routine.evening.push(eveningOilTask); else routine.recommendations.push(eveningOilTask); }
   }
+  
+  const balmInstruction = 'Scrape a pea-sized amount, melt between your palms, and apply to your beard to shape and tame flyaways.';
   if (goal === 'taming' || length === 'medium' || length === 'long') {
-    const balmTask = addOrRecommend('balm', 'style and control flyaways.');
+    const balmTask = addOrRecommend('balm', balmInstruction);
     if (balmTask) { if (balmTask.type === 'task') routine.morning.push(balmTask); else routine.recommendations.push(balmTask); }
   }
+  
   let idealToolId;
   if (length === 'long') idealToolId = 'pick';
   else if (length === 'medium' || type === 'curly' || type === 'coily') idealToolId = 'comb';
   else idealToolId = 'brush';
   const toolTask = addOrRecommend(idealToolId, `use the ${getProduct(idealToolId).name.toLowerCase()} to style, detangle, and distribute products evenly.`);
   if(toolTask) { if(toolTask.type === 'task') routine.morning.push(toolTask); else routine.recommendations.push(toolTask); }
+
+  // --- UPDATED: Bald Head Balm Instruction ---
   if (hairstyle === 'bald' || hairstyle === 'buzzed') {
-    const headBalmTask = addOrRecommend('head_balm', 'soothe and moisturize your scalp for a smooth, non-greasy finish.');
+    const headBalmInstruction = "After your shower, apply a small, dime-sized amount to your scalp for a smooth, moisturized finish.";
+    const headBalmTask = addOrRecommend('head_balm', headBalmInstruction);
     if (headBalmTask) {
         if (headBalmTask.type === 'task') { routine.morning.push(headBalmTask); } 
         else { routine.recommendations.push(headBalmTask); }
     }
   }
+  
   if (routine.weekly.length === 0) { routine.weekly.push({ type: 'task', product: {name: "Rest & Review", description: "Check your beard's progress."}, instruction: "No special product tasks this week. A great day to trim your neckline and check for stray hairs!" }); }
   return routine;
 };
