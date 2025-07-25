@@ -34,7 +34,7 @@ const WEEKLY_TIPS = [
 const getProduct = (id) => ALL_PRODUCTS.find(p => p.id === id);
 
 const QUIZ_STEPS = [
-  { id: 'length', question: "What's your beard length?", options: [ { value: 'stubble', label: 'Stubble', icon: '🧔🏻' }, { value: 'short', label: 'Short', icon: '🧔🏼' }, { value: 'medium', label: 'Medium', icon: '🧔🏽' }, { value: 'long', label: 'Long', icon: '�🏾' } ] },
+  { id: 'length', question: "What's your beard length?", options: [ { value: 'stubble', label: 'Stubble', icon: '🧔🏻' }, { value: 'short', label: 'Short', icon: '🧔🏼' }, { value: 'medium', label: 'Medium', icon: '🧔🏽' }, { value: 'long', label: 'Long', icon: '🧔🏾' } ] },
   { id: 'type', question: "What's your hair type?", options: [ { value: 'straight', label: 'Straight', icon: '📏' }, { value: 'wavy', label: 'Wavy', icon: '🌊' }, { value: 'curly', label: 'Curly', icon: '➰' }, { value: 'coily', label: 'Coily', icon: '➿' } ] },
   { id: 'skin', question: "How's your skin underneath?", options: [ { value: 'normal', label: 'Normal', icon: '🙂' }, { value: 'dry', label: 'Dry / Itchy', icon: '🌵' }, { value: 'oily', label: 'Oily', icon: '💧' } ] },
   { id: 'hairstyle', question: "What's your style up top?", options: [ { value: 'hair', label: 'Got a full mane', icon: '💇‍♂️' }, { value: 'bald', label: 'Rockin\' the bald look', icon: '🧑‍🦲' }, { value: 'buzzed', label: 'Keeping it buzzed', icon: '🪒' } ] },
@@ -106,14 +106,13 @@ const RoutineBuilderPage = ({ setActiveTab }) => {
       else setAppState('shelf');
     }, 300);
   };
-  const handleToggleProduct = (productId) => setOwnedProducts(prev => prev.includes(productId) ? prev.filter(id => id !== productId) : [...prev, productId]);
+  
   const handleRestart = () => { setAnswers({}); setOwnedProducts([]); setQuizStep(0); setAppState('quiz'); };
   const generatedRoutine = useMemo(() => generateRoutine(answers, ownedProducts), [answers, ownedProducts]);
   const ProgressBar = ({ current, total }) => <div className="w-full bg-gray-700 rounded-full h-2.5 mb-8"><div className="bg-amber-500 h-2.5 rounded-full transition-all" style={{ width: `${(current / total) * 100}%` }}></div></div>;
   const QuizOption = ({ option, onSelect, isSelected }) => <button onClick={() => onSelect(option.value)} className={`w-full text-left p-4 md:p-6 rounded-lg border-2 transition-all transform hover:scale-105 ${isSelected ? 'bg-amber-500 border-amber-400 shadow-lg' : 'bg-gray-800 border-gray-700 hover:border-amber-500'}`}><div className="flex items-center"><span className="text-3xl mr-4">{option.icon}</span><span className="text-lg font-semibold text-white">{option.label}</span></div></button>;
   const QuizStep = ({ step, onSelect, selectedValue }) => <div className="w-full animate-fade-in"><h2 className="text-2xl md:text-3xl font-bold text-white mb-6 text-center">{step.question}</h2><div className="grid grid-cols-1 md:grid-cols-2 gap-4">{step.options.map((option) => <QuizOption key={option.value} option={option} onSelect={onSelect} isSelected={selectedValue === option.value} />)}</div></div>;
   
-  // --- UPDATED: MyShelfStep Component ---
   const MyShelfStep = ({ ownedProducts, setOwnedProducts, onContinue }) => {
     const shelfProducts = ALL_PRODUCTS.filter(p => p.type !== 'tool');
     const isNoneOwned = ownedProducts.length === 0;
@@ -313,4 +312,3 @@ export default function App() {
     </div>
   );
 }
-�
