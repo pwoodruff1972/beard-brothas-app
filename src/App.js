@@ -40,7 +40,7 @@ const WEEKLY_TIPS = [
 const getProduct = (id) => ALL_PRODUCTS.find(p => p.id === id);
 
 const QUIZ_STEPS = [
-  { id: 'length', question: "What's your beard length?", options: [ { value: 'stubble', label: 'Stubble', icon: '🧔🏻' }, { value: 'short', label: 'Short', icon: '🧔🏼' }, { value: 'medium', label: 'Medium', icon: '🧔🏽' }, { value: 'long', label: 'Long', icon: '🧔🏾' } ] },
+  { id: 'length', question: "What's your beard length?", options: [ { value: 'stubble', label: 'Stubble', icon: '🧔🏻' }, { value: 'short', label: 'Short', icon: '🧔🏼' }, { value: 'medium', label: 'Medium', icon: '🧔🏽' }, { value: 'long', label: 'Long', icon: '�🏾' } ] },
   { id: 'type', question: "What's your hair type?", options: [ { value: 'straight', label: 'Straight', icon: '📏' }, { value: 'wavy', label: 'Wavy', icon: '🌊' }, { value: 'curly', label: 'Curly', icon: '➰' }, { value: 'coily', label: 'Coily', icon: '➿' } ] },
   { id: 'skin', question: "How's your skin underneath?", options: [ { value: 'normal', label: 'Normal', icon: '🙂' }, { value: 'dry', label: 'Dry / Itchy', icon: '🌵' }, { value: 'oily', label: 'Oily', icon: '💧' } ] },
   { id: 'hairstyle', question: "What's your style up top?", options: [ { value: 'hair', label: 'Got a full mane', icon: '💇‍♂️' }, { value: 'bald', label: 'Rockin\' the bald look', icon: '🧑‍🦲' }, { value: 'buzzed', label: 'Keeping it buzzed', icon: '🪒' } ] },
@@ -102,7 +102,28 @@ const RoutineBuilderPage = ({ setActiveTab }) => {
   const [appState, setAppState] = useState('quiz');
   const [quizStep, setQuizStep] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [ownedProducts, setOwnedProducts] = useState([]);
+  
+  // --- UPDATED: Load ownedProducts from localStorage ---
+  const [ownedProducts, setOwnedProducts] = useState(() => {
+    try {
+      const saved = localStorage.getItem('beardBrothasOwnedProducts');
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error("Failed to load owned products from localStorage", error);
+      return [];
+    }
+  });
+
+  // --- NEW: Save ownedProducts to localStorage on change ---
+  useEffect(() => {
+    try {
+        localStorage.setItem('beardBrothasOwnedProducts', JSON.stringify(ownedProducts));
+    } catch (error) {
+        console.error("Failed to save owned products to localStorage", error);
+    }
+  }, [ownedProducts]);
+
+
   const currentStepData = QUIZ_STEPS[quizStep];
   const handleSelectAnswer = (value) => {
     const newAnswers = { ...answers, [currentStepData.id]: value };
@@ -113,7 +134,7 @@ const RoutineBuilderPage = ({ setActiveTab }) => {
     }, 300);
   };
   
-  const handleRestart = () => { setAnswers({}); setOwnedProducts([]); setQuizStep(0); setAppState('quiz'); };
+  const handleRestart = () => { setAnswers({}); setQuizStep(0); setAppState('quiz'); };
   const generatedRoutine = useMemo(() => generateRoutine(answers, ownedProducts), [answers, ownedProducts]);
   const ProgressBar = ({ current, total }) => <div className="w-full bg-gray-700 rounded-full h-2.5 mb-8"><div className="bg-amber-500 h-2.5 rounded-full transition-all" style={{ width: `${(current / total) * 100}%` }}></div></div>;
   const QuizOption = ({ option, onSelect, isSelected }) => <button onClick={() => onSelect(option.value)} className={`w-full text-left p-4 md:p-6 rounded-lg border-2 transition-all transform hover:scale-105 ${isSelected ? 'bg-amber-500 border-amber-400 shadow-lg' : 'bg-gray-800 border-gray-700 hover:border-amber-500'}`}><div className="flex items-center"><span className="text-3xl mr-4">{option.icon}</span><span className="text-lg font-semibold text-white">{option.label}</span></div></button>;
@@ -304,7 +325,6 @@ const GrowthTrackerPage = () => {
         const file = event.target.files[0];
         if (!file) return;
 
-        // --- Image Resizing Logic ---
         const reader = new FileReader();
         reader.onload = (e) => {
             const img = new Image();
@@ -331,8 +351,7 @@ const GrowthTrackerPage = () => {
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
                 
-                // Get the data URL for the resized image
-                const dataUrl = canvas.toDataURL('image/jpeg', 0.8); // Compress to 80% quality JPEG
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
 
                 const newPhoto = {
                     id: Date.now(),
@@ -359,12 +378,11 @@ const GrowthTrackerPage = () => {
         useEffect(() => {
             const interval = setInterval(() => {
                 setCurrentIndex(prevIndex => (prevIndex + 1) % photos.length);
-            }, 500); // Change image every 0.5 seconds
+            }, 500);
 
             return () => clearInterval(interval);
         }, [photos.length]);
 
-        // Reverse the photos so it plays from oldest to newest
         const orderedPhotos = [...photos].reverse();
 
         return (
@@ -526,3 +544,4 @@ export default function App() {
     </div>
   );
 }
+�
