@@ -511,11 +511,11 @@ export default function App() {
 
   const renderActivePage = () => {
     switch (activeTab) {
-      case 'routine': return <RoutineBuilderPage setActiveTab={setActiveTab} />;
+      case 'routine': return <RoutineBuilderPage />;
       case 'shop': return <ShopPage />;
       case 'learn': return <LearnPage />;
       case 'tracker': return <GrowthTrackerPage />;
-      default: return <RoutineBuilderPage setActiveTab={setActiveTab} />;
+      default: return <RoutineBuilderPage />;
     }
   };
 
