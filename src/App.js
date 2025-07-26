@@ -98,49 +98,11 @@ const generateRoutine = (answers, ownedProducts) => {
 
 // --- Page & Sub-Components ---
 
-const RoutineBuilderPage = ({ setActiveTab }) => {
-  const [appState, setAppState] = useState('quiz');
-  const [quizStep, setQuizStep] = useState(0);
-  const [answers, setAnswers] = useState({});
-  
-  // --- UPDATED: Load ownedProducts from localStorage ---
-  const [ownedProducts, setOwnedProducts] = useState(() => {
-    try {
-      const saved = localStorage.getItem('beardBrothasOwnedProducts');
-      return saved ? JSON.parse(saved) : [];
-    } catch (error) {
-      console.error("Failed to load owned products from localStorage", error);
-      return [];
-    }
-  });
+const ProgressBar = ({ current, total }) => <div className="w-full bg-gray-700 rounded-full h-2.5 mb-8"><div className="bg-amber-500 h-2.5 rounded-full transition-all" style={{ width: `${(current / total) * 100}%` }}></div></div>;
+const QuizOption = ({ option, onSelect, isSelected }) => <button onClick={() => onSelect(option.value)} className={`w-full text-left p-4 md:p-6 rounded-lg border-2 transition-all transform hover:scale-105 ${isSelected ? 'bg-amber-500 border-amber-400 shadow-lg' : 'bg-gray-800 border-gray-700 hover:border-amber-500'}`}><div className="flex items-center"><span className="text-3xl mr-4">{option.icon}</span><span className="text-lg font-semibold text-white">{option.label}</span></div></button>;
+const QuizStep = ({ step, onSelect, selectedValue }) => <div className="w-full animate-fade-in"><h2 className="text-2xl md:text-3xl font-bold text-white mb-6 text-center">{step.question}</h2><div className="grid grid-cols-1 md:grid-cols-2 gap-4">{step.options.map((option) => <QuizOption key={option.value} option={option} onSelect={onSelect} isSelected={selectedValue === option.value} />)}</div></div>;
 
-  // --- NEW: Save ownedProducts to localStorage on change ---
-  useEffect(() => {
-    try {
-        localStorage.setItem('beardBrothasOwnedProducts', JSON.stringify(ownedProducts));
-    } catch (error) {
-        console.error("Failed to save owned products to localStorage", error);
-    }
-  }, [ownedProducts]);
-
-
-  const currentStepData = QUIZ_STEPS[quizStep];
-  const handleSelectAnswer = (value) => {
-    const newAnswers = { ...answers, [currentStepData.id]: value };
-    setAnswers(newAnswers);
-    setTimeout(() => {
-      if (quizStep < QUIZ_STEPS.length - 1) setQuizStep(quizStep + 1);
-      else setAppState('shelf');
-    }, 300);
-  };
-  
-  const handleRestart = () => { setAnswers({}); setQuizStep(0); setAppState('quiz'); };
-  const generatedRoutine = useMemo(() => generateRoutine(answers, ownedProducts), [answers, ownedProducts]);
-  const ProgressBar = ({ current, total }) => <div className="w-full bg-gray-700 rounded-full h-2.5 mb-8"><div className="bg-amber-500 h-2.5 rounded-full transition-all" style={{ width: `${(current / total) * 100}%` }}></div></div>;
-  const QuizOption = ({ option, onSelect, isSelected }) => <button onClick={() => onSelect(option.value)} className={`w-full text-left p-4 md:p-6 rounded-lg border-2 transition-all transform hover:scale-105 ${isSelected ? 'bg-amber-500 border-amber-400 shadow-lg' : 'bg-gray-800 border-gray-700 hover:border-amber-500'}`}><div className="flex items-center"><span className="text-3xl mr-4">{option.icon}</span><span className="text-lg font-semibold text-white">{option.label}</span></div></button>;
-  const QuizStep = ({ step, onSelect, selectedValue }) => <div className="w-full animate-fade-in"><h2 className="text-2xl md:text-3xl font-bold text-white mb-6 text-center">{step.question}</h2><div className="grid grid-cols-1 md:grid-cols-2 gap-4">{step.options.map((option) => <QuizOption key={option.value} option={option} onSelect={onSelect} isSelected={selectedValue === option.value} />)}</div></div>;
-  
-  const MyShelfStep = ({ ownedProducts, setOwnedProducts, onContinue }) => {
+const MyShelfStep = ({ ownedProducts, setOwnedProducts, onContinue }) => {
     const shelfProducts = ALL_PRODUCTS.filter(p => p.type !== 'tool');
     const isNoneOwned = ownedProducts.length === 0;
 
@@ -193,9 +155,9 @@ const RoutineBuilderPage = ({ setActiveTab }) => {
             </div>
         </div>
     );
-  };
+};
 
-  const RoutineDisplay = ({ routine, onRestart }) => {
+const RoutineDisplay = ({ routine, onRestart }) => {
     const RoutineSection = ({ title, tasks, icon }) => {
       if (!tasks || tasks.length === 0) return null;
       return <div className="mb-6"><h3 className="text-2xl font-bold text-amber-500 border-b-2 border-gray-700 pb-2 mb-4 flex items-center"><span className="text-2xl mr-3">{icon}</span>{title}</h3><ul className="space-y-4">{tasks.map((task, index) => {
@@ -210,7 +172,45 @@ const RoutineBuilderPage = ({ setActiveTab }) => {
         })}</ul></div>;
     };
     return <div className="w-full animate-fade-in p-4 md:p-6 bg-gray-900 rounded-xl"><h2 className="text-3xl md:text-4xl font-bold text-white mb-2 text-center">Your Personal Beard Brothas Routine</h2><p className="text-gray-400 mb-8 text-center">Here is the personalized routine crafted just for you.</p><RoutineSection title="Morning Routine" tasks={routine.morning} icon="☀️" /><RoutineSection title="Evening Routine" tasks={routine.evening} icon="🌙" /><RoutineSection title="Weekly Tasks" tasks={routine.weekly} icon="🗓️" /><RoutineSection title="Pro Tips & Recommendations" tasks={routine.recommendations} icon="💡" /><div className="mt-8 text-center"><button onClick={onRestart} className="bg-amber-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-amber-700 transition-all shadow-lg">Start Over</button></div></div>;
+};
+
+const RoutineBuilderPage = () => {
+  const [appState, setAppState] = useState('quiz');
+  const [quizStep, setQuizStep] = useState(0);
+  const [answers, setAnswers] = useState({});
+  
+  const [ownedProducts, setOwnedProducts] = useState(() => {
+    try {
+      const saved = localStorage.getItem('beardBrothasOwnedProducts');
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error("Failed to load owned products from localStorage", error);
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    try {
+        localStorage.setItem('beardBrothasOwnedProducts', JSON.stringify(ownedProducts));
+    } catch (error) {
+        console.error("Failed to save owned products to localStorage", error);
+    }
+  }, [ownedProducts]);
+
+
+  const currentStepData = QUIZ_STEPS[quizStep];
+  const handleSelectAnswer = (value) => {
+    const newAnswers = { ...answers, [currentStepData.id]: value };
+    setAnswers(newAnswers);
+    setTimeout(() => {
+      if (quizStep < QUIZ_STEPS.length - 1) setQuizStep(quizStep + 1);
+      else setAppState('shelf');
+    }, 300);
   };
+  
+  const handleRestart = () => { setAnswers({}); setQuizStep(0); setAppState('quiz'); };
+  const generatedRoutine = useMemo(() => generateRoutine(answers, ownedProducts), [answers, ownedProducts]);
+  
   const renderContent = () => {
     switch(appState) {
       case 'quiz': return <><ProgressBar current={quizStep + 1} total={QUIZ_STEPS.length} /><QuizStep step={currentStepData} onSelect={handleSelectAnswer} selectedValue={answers[currentStepData.id]} /></>;
