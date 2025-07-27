@@ -1,5 +1,53 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 
+// --- Google Analytics Configuration ---
+const GA_MEASUREMENT_ID = "G-MHFDWMCGE3"; 
+
+// --- Google Analytics Helper Functions ---
+const GoogleAnalyticsInjector = () => {
+  useEffect(() => {
+    if (window.ga_script_injected) return;
+
+    const script = document.createElement('script');
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    script.async = true;
+    document.head.appendChild(script);
+
+    const inlineScript = document.createElement('script');
+    inlineScript.innerHTML = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${GA_MEASUREMENT_ID}');
+    `;
+    document.head.appendChild(inlineScript);
+    
+    window.ga_script_injected = true;
+
+  }, []);
+
+  return null;
+};
+
+const trackPageView = (path, title) => {
+  if (typeof window.gtag === 'function') {
+    window.gtag('config', GA_MEASUREMENT_ID, {
+      page_path: path,
+      page_title: title
+    });
+  }
+};
+
+const trackEvent = ({ category, action, label }) => {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', action, {
+      'event_category': category,
+      'event_label': label,
+    });
+  }
+};
+
+
 // --- ICONS ---
 const CalendarIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>;
 const ShoppingBagIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>;
@@ -40,7 +88,7 @@ const WEEKLY_TIPS = [
 const getProduct = (id) => ALL_PRODUCTS.find(p => p.id === id);
 
 const QUIZ_STEPS = [
-  { id: 'length', question: "What's your beard length?", options: [ { value: 'stubble', label: 'Stubble', icon: '🧔🏻' }, { value: 'short', label: 'Short', icon: '🧔🏼' }, { value: 'medium', label: 'Medium', icon: '🧔🏽' }, { value: 'long', label: 'Long', icon: '🧔🏾' } ] },
+  { id: 'length', question: "What's your beard length?", options: [ { value: 'stubble', label: 'Stubble', icon: '🧔🏻' }, { value: 'short', label: 'Short', icon: '🧔🏼' }, { value: 'medium', label: 'Medium', icon: '🧔🏽' }, { value: 'long', label: 'Long', icon: '�🏾' } ] },
   { id: 'type', question: "What's your hair type?", options: [ { value: 'straight', label: 'Straight', icon: '📏' }, { value: 'wavy', label: 'Wavy', icon: '🌊' }, { value: 'curly', label: 'Curly', icon: '➰' }, { value: 'coily', label: 'Coily', icon: '➿' } ] },
   { id: 'skin', question: "How's your skin underneath?", options: [ { value: 'normal', label: 'Normal', icon: '🙂' }, { value: 'dry', label: 'Dry / Itchy', icon: '🌵' }, { value: 'oily', label: 'Oily', icon: '💧' } ] },
   { id: 'hairstyle', question: "What's your style up top?", options: [ { value: 'hair', label: 'Got a full mane', icon: '💇‍♂️' }, { value: 'bald', label: 'Rockin\' the bald look', icon: '🧑‍🦲' }, { value: 'buzzed', label: 'Keeping it buzzed', icon: '🪒' } ] },
@@ -118,6 +166,15 @@ const MyShelfStep = ({ ownedProducts, setOwnedProducts, onContinue }) => {
         setOwnedProducts([]);
     };
 
+    const handleGenerateClick = () => {
+        trackEvent({
+            category: "Quiz",
+            action: "Generated Routine",
+            label: isNoneOwned ? "New User" : "Existing User",
+        });
+        onContinue();
+    };
+
     return (
         <div className="w-full animate-fade-in">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 text-center">My Shelf</h2>
@@ -147,7 +204,7 @@ const MyShelfStep = ({ ownedProducts, setOwnedProducts, onContinue }) => {
             </div>
             <div className="mt-8 text-center">
                 <button
-                    onClick={onContinue}
+                    onClick={handleGenerateClick}
                     className="bg-green-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-700 transition-all duration-200 shadow-lg"
                 >
                     Generate My Routine
@@ -250,6 +307,14 @@ const ShopPage = () => {
 const LearnPage = () => {
     const [selectedArticle, setSelectedArticle] = useState(null);
 
+    const handleFeedbackClick = () => {
+        trackEvent({
+            category: 'User Engagement',
+            action: 'Clicked Feedback Button',
+            label: 'Learn Page'
+        });
+    };
+
     if (selectedArticle) {
         return (
             <div className="w-full max-w-2xl mx-auto animate-fade-in text-left">
@@ -281,6 +346,7 @@ const LearnPage = () => {
             </div>
             <a 
                 href="mailto:customerservice@beardbrothas.com?subject=Feedback%20on%20the%20Beard%20Routine%20App"
+                onClick={handleFeedbackClick}
                 className="mt-8 inline-flex items-center justify-center bg-gray-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-600 transition-all duration-200 shadow-lg"
             >
                 <MailIcon />
@@ -544,4 +610,4 @@ export default function App() {
     </div>
   );
 }
-
+�
