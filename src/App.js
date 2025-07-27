@@ -105,13 +105,13 @@ const generateRoutine = (answers, ownedProducts) => {
     if (ownedProducts.includes(productId)) return { type: 'task', product: product, instruction };
     else return { type: 'recommendation', product: product, instruction: `Consider adding this to your shelf to ${instruction}` };
   };
-  const washInstruction = "Use a quarter-sized amount and lather well. For a richer lather (especially with sulfate-free washes), rinse lightly and repeat a second time.";
+  const washInstruction = "Use a quarter-sized amount and lather well. The first wash removes surface grime, while the second truly cleanses your skin and hair. For a richer lather, rinse lightly and repeat.";
   const washTask = addOrRecommend('wash', washInstruction);
   if (washTask) { if (washTask.type === 'task') routine.morning.push(washTask); else routine.recommendations.push(washTask); }
   let oilAmount = "3-5 drops";
   if (length === 'medium') oilAmount = "5-8 drops";
   if (length === 'long') oilAmount = "8-12+ drops";
-  const oilInstruction = `Apply ${oilAmount}. Warm in hands and massage into the skin and beard.`;
+  const oilInstruction = `Apply ${oilAmount} and warm in your hands. Massage deep into the skin beneath your beard first—this is the secret to preventing itch and flakes. Then, work the remaining oil through your beard hair.`;
   const oilTask = addOrRecommend('oil', oilInstruction);
   if (oilTask) { if (oilTask.type === 'task') routine.morning.push(oilTask); else routine.recommendations.push(oilTask); }
   if (skin === 'dry') {
@@ -119,7 +119,7 @@ const generateRoutine = (answers, ownedProducts) => {
     const eveningOilTask = addOrRecommend('oil', eveningOilInstruction);
     if (eveningOilTask) { if (eveningOilTask.type === 'task') routine.evening.push(eveningOilTask); else routine.recommendations.push(eveningOilTask); }
   }
-  const balmInstruction = 'Scrape a pea-sized amount, melt between your palms, and apply to your beard to shape and tame flyaways.';
+  const balmInstruction = "Scrape a pea-sized amount and melt it completely between your palms until it's smooth. This ensures an even application without clumps. Lightly apply to the outside of your beard to shape and tame flyaways.";
   if (goal === 'taming' || length === 'medium' || length === 'long') {
     const balmTask = addOrRecommend('balm', balmInstruction);
     if (balmTask) { if (balmTask.type === 'task') routine.morning.push(balmTask); else routine.recommendations.push(balmTask); }
@@ -131,7 +131,7 @@ const generateRoutine = (answers, ownedProducts) => {
   const toolTask = addOrRecommend(idealToolId, `use the ${getProduct(idealToolId).name.toLowerCase()} to style, detangle, and distribute products evenly.`);
   if(toolTask) { if(toolTask.type === 'task') routine.morning.push(toolTask); else routine.recommendations.push(toolTask); }
   if (hairstyle === 'bald' || hairstyle === 'buzzed') {
-    const headBalmInstruction = "After your shower, apply a small, dime-sized amount to your scalp for a smooth, moisturized finish.";
+    const headBalmInstruction = "After your shower, apply a small, dime-sized amount to your scalp. This provides all-day moisture and a healthy, non-greasy shine.";
     const headBalmTask = addOrRecommend('head_balm', headBalmInstruction);
     if (headBalmTask) {
         if (headBalmTask.type === 'task') { routine.morning.push(headBalmTask); } 
