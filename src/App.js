@@ -6,7 +6,9 @@ const GA_MEASUREMENT_ID = "G-MHFDWMCGE3";
 // --- Google Analytics Helper Functions ---
 const GoogleAnalyticsInjector = () => {
   useEffect(() => {
-    if (window.ga_script_injected) return;
+    if (window.ga_script_injected || GA_MEASUREMENT_ID === "G-XXXXXXXXXX") {
+      return;
+    }
 
     const script = document.createElement('script');
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
@@ -30,7 +32,7 @@ const GoogleAnalyticsInjector = () => {
 };
 
 const trackPageView = (path, title) => {
-  if (typeof window.gtag === 'function') {
+  if (typeof window.gtag === 'function' && GA_MEASUREMENT_ID !== "G-XXXXXXXXXX") {
     window.gtag('config', GA_MEASUREMENT_ID, {
       page_path: path,
       page_title: title
@@ -39,14 +41,13 @@ const trackPageView = (path, title) => {
 };
 
 const trackEvent = ({ category, action, label }) => {
-  if (typeof window.gtag === 'function') {
+  if (typeof window.gtag === 'function' && GA_MEASUREMENT_ID !== "G-XXXXXXXXXX") {
     window.gtag('event', action, {
       'event_category': category,
       'event_label': label,
     });
   }
 };
-
 
 // --- ICONS ---
 const CalendarIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>;
@@ -307,6 +308,15 @@ const ShopPage = () => {
 const LearnPage = () => {
     const [selectedArticle, setSelectedArticle] = useState(null);
 
+    const handleArticleClick = (article) => {
+        trackEvent({
+            category: "Learn",
+            action: "View Article",
+            label: article.title,
+        });
+        setSelectedArticle(article);
+    };
+
     const handleFeedbackClick = () => {
         trackEvent({
             category: 'User Engagement',
@@ -337,7 +347,7 @@ const LearnPage = () => {
                 {ARTICLES.map(article => (
                     <button 
                         key={article.id} 
-                        onClick={() => setSelectedArticle(article)}
+                        onClick={() => handleArticleClick(article)}
                         className="w-full bg-gray-800 p-4 rounded-lg border border-gray-700 hover:border-amber-500 transition-colors text-left"
                     >
                         <h2 className="text-xl font-bold text-amber-500">{article.title}</h2>
@@ -384,6 +394,7 @@ const GrowthTrackerPage = () => {
     };
 
     const handleAddPhotoClick = () => {
+        trackEvent({ category: 'Growth Tracker', action: 'Clicked Add Photo' });
         fileInputRef.current.click();
     };
 
@@ -436,6 +447,11 @@ const GrowthTrackerPage = () => {
     const handleDeletePhoto = (id) => {
         const updatedPhotos = photos.filter(photo => photo.id !== id);
         savePhotos(updatedPhotos);
+    };
+
+    const handleTimelapseClick = () => {
+        trackEvent({ category: 'Growth Tracker', action: 'Created Timelapse', label: `${photos.length} photos` });
+        setIsPlayingTimelapse(true);
     };
 
     const TimelapsePlayer = ({ photos, onClose }) => {
@@ -502,7 +518,7 @@ const GrowthTrackerPage = () => {
 
                 {photos.length >= 3 && (
                      <button
-                        onClick={() => setIsPlayingTimelapse(true)}
+                        onClick={handleTimelapseClick}
                         className="flex-1 bg-amber-600 text-white font-bold py-4 px-6 rounded-lg hover:bg-amber-700 transition-all duration-200 shadow-lg flex items-center justify-center text-lg"
                     >
                         <FilmIcon />
@@ -575,6 +591,10 @@ const TabBar = ({ activeTab, setActiveTab }) => {
 export default function App() {
   const [activeTab, setActiveTab] = useState('routine');
 
+  useEffect(() => {
+    trackPageView(`/${activeTab}`, activeTab.charAt(0).toUpperCase() + activeTab.slice(1));
+  }, [activeTab]);
+
   const renderActivePage = () => {
     switch (activeTab) {
       case 'routine': return <RoutineBuilderPage />;
@@ -587,6 +607,7 @@ export default function App() {
 
   return (
     <div className="bg-gray-900 min-h-screen flex flex-col items-center p-4 pb-28 font-sans text-white">
+      <GoogleAnalyticsInjector />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
         .font-sans { font-family: 'Inter', sans-serif; }
