@@ -124,12 +124,36 @@ const generateRoutine = (answers, ownedProducts) => {
     const balmTask = addOrRecommend('balm', balmInstruction);
     if (balmTask) { if (balmTask.type === 'task') routine.morning.push(balmTask); else routine.recommendations.push(balmTask); }
   }
-  let idealToolId;
-  if (length === 'long') idealToolId = 'pick';
-  else if (length === 'medium' || type === 'curly' || type === 'coily') idealToolId = 'comb';
-  else idealToolId = 'brush';
-  const toolTask = addOrRecommend(idealToolId, `use the ${getProduct(idealToolId).name.toLowerCase()} to style, detangle, and distribute products evenly.`);
-  if(toolTask) { if(toolTask.type === 'task') routine.morning.push(toolTask); else routine.recommendations.push(toolTask); }
+  
+  let primaryToolId;
+  let primaryToolInstruction;
+
+  if (length === 'long') {
+    primaryToolId = 'pick';
+    primaryToolInstruction = `Use the ${getProduct(primaryToolId).name.toLowerCase()} to gently detangle from the ends to the roots and add volume.`;
+  } else if (length === 'medium' || type === 'curly' || type === 'coily') {
+    primaryToolId = 'comb';
+    primaryToolInstruction = `Use the ${getProduct(primaryToolId).name.toLowerCase()} to detangle and distribute products evenly.`;
+  } else {
+    primaryToolId = 'brush';
+    primaryToolInstruction = `Use the ${getProduct(primaryToolId).name.toLowerCase()} to exfoliate the skin and distribute products.`;
+  }
+  
+  const primaryToolTask = addOrRecommend(primaryToolId, primaryToolInstruction);
+  if(primaryToolTask) { 
+    if(primaryToolTask.type === 'task') routine.morning.push(primaryToolTask); 
+    else routine.recommendations.push(primaryToolTask); 
+  }
+
+  if (length === 'medium' || length === 'long') {
+    const brushInstruction = "Finish by using the Boar Bristle Brush to smooth the outer layer, tame flyaways, and train your hairs to grow in the desired direction.";
+    const brushTask = addOrRecommend('brush', brushInstruction);
+    if (brushTask) {
+        if (brushTask.type === 'task') routine.morning.push(brushTask);
+        else routine.recommendations.push(brushTask);
+    }
+  }
+
   if (hairstyle === 'bald' || hairstyle === 'buzzed') {
     const headBalmInstruction = "After your shower, apply a small, dime-sized amount to your scalp. This provides all-day moisture and a healthy, non-greasy shine.";
     const headBalmTask = addOrRecommend('head_balm', headBalmInstruction);
@@ -138,6 +162,7 @@ const generateRoutine = (answers, ownedProducts) => {
         else { routine.recommendations.push(headBalmTask); }
     }
   }
+  
   if (routine.weekly.length === 0) {
     const randomTip = WEEKLY_TIPS[Math.floor(Math.random() * WEEKLY_TIPS.length)];
     routine.weekly.push({ type: 'task', product: {name: randomTip.name, description: ""}, instruction: randomTip.instruction });
