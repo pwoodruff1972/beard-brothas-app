@@ -63,13 +63,13 @@ const MailIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-
 
 // --- Data ---
 const ALL_PRODUCTS = [
-  { id: 'wash', name: "Beard Brothas' Beard Wash", description: "Cleanses without stripping natural oils.", price: "15.99", url: "https://beardbrothas.com/Beard-Wash-c73000019", type: 'product' },
-  { id: 'oil', name: "Beard Brothas' Beard Oil", description: "Our signature blend for daily hydration and health.", price: "17.99", url: "https://beardbrothas.com/Beard-Oils-c44673539", type: 'product' },
-  { id: 'balm', name: "Beard Brothas' Beard Balm", description: "Provides hold and shapes your beard.", price: "19.99", url: "https://beardbrothas.com/Beard-Balms-c44673540", type: 'product' },
-  { id: 'head_balm', name: "Beard Brothas' Bald Head Balm", description: "Soothes and moisturizes the scalp.", price: "19.99", url: "https://beardbrothas.com/Bald-Head-Moisturizers-c44676609", type: 'product' },
-  { id: 'comb', name: "Beard Brothas' Peachwood Beard Comb", description: "Detangles without causing frizz.", price: "12.99", url: "https://beardbrothas.com/Beard-Brothas-Peach-Wood-Beard-Comb-p218893033", type: 'tool' },
-  { id: 'brush', name: "Beard Brothas' Boar Bristle Brush", description: "Distributes oils and exfoliates the skin.", price: "15.99", url: "https://beardbrothas.com/Beard-Brothas-Black-Wood-Beard-Brush-p218876280", type: 'tool' },
-  { id: 'pick', name: "Beard Brothas' Wood Beard Pick", description: "For lifting and adding volume to long beards.", price: "16.99", url: "https://beardbrothas.com/Beard-Brothas-Wooden-Beard-Pick-p517229377", type: 'tool' },
+  { id: 'wash', name: "Beard Brothas' Beard Wash", description: "Cleanses without stripping natural oils.", url: "https://beardbrothas.com/Beard-Wash-c73000019", type: 'product' },
+  { id: 'oil', name: "Beard Brothas' Beard Oil", description: "Our signature blend for daily hydration and health.", url: "https://beardbrothas.com/Beard-Oils-c44673539", type: 'product' },
+  { id: 'balm', name: "Beard Brothas' Beard Balm", description: "Provides hold and shapes your beard.", url: "https://beardbrothas.com/Beard-Balms-c44673540", type: 'product' },
+  { id: 'head_balm', name: "Beard Brothas' Bald Head Balm", description: "Soothes and moisturizes the scalp.", url: "https://beardbrothas.com/Bald-Head-Moisturizers-c44676609", type: 'product' },
+  { id: 'comb', name: "Beard Brothas' Peachwood Beard Comb", description: "Detangles without causing frizz.", url: "https://beardbrothas.com/Beard-Brothas-Peach-Wood-Beard-Comb-p218893033", type: 'tool' },
+  { id: 'brush', name: "Beard Brothas' Boar Bristle Brush", description: "Distributes oils and exfoliates the skin.", url: "https://beardbrothas.com/Beard-Brothas-Black-Wood-Beard-Brush-p218876280", type: 'tool' },
+  { id: 'pick', name: "Beard Brothas' Wood Beard Pick", description: "For lifting and adding volume to long beards.", url: "https://beardbrothas.com/Beard-Brothas-Wooden-Beard-Pick-p517229377", type: 'tool' },
 ];
 
 const ARTICLES = [
@@ -317,8 +317,7 @@ const ShopPage = () => {
                             <h2 className="text-xl font-bold text-amber-500">{product.name}</h2>
                             <p className="text-gray-400 mt-2 mb-4">{product.description}</p>
                         </div>
-                        <div className="flex justify-between items-center mt-4">
-                            <p className="text-2xl font-bold text-white">${product.price}</p>
+                        <div className="flex justify-end items-center mt-4">
                             <div className="bg-amber-600 text-white font-semibold py-2 px-5 rounded-lg">
                                 {product.type === 'tool' ? 'View Tool' : 'View Scents'}
                             </div>
